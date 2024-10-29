@@ -1,0 +1,390 @@
+(Bundle_Create, _, "User", [
+    ["String", "name"],
+    ["u32", "age"]
+]);
+
+(Let, "Raw_Field", "field", ["String", "hello"]);
+
+(Let, "User", "user", ["Matias", 21]);
+(Let, "User*", "userPtr", &user);
+
+(Output, <-user>.data, "\n");
+(Output, userPtr, "\n");
+
+(Output, <*userPtr>.name, "\n");
+
+(Fn_Create, "Hello", NULL, NULL, {
+    (Output, "Hello, World!!!\n")
+});
+
+(Fn_Create, "Bye", NULL, NULL, {
+    (Output, "Bye, World!!!\n")
+});
+
+(Fn_Create, "DBundle_Create", NULL, [ ["String", "name"], ["Fn_Call*", "fields"] ], {
+    (Let, "String", "bundleName", (WStr_From_Fmt, "D_%", name)),
+
+    (Fn_Create_Scope, 1, name, ["String", "out"], NULL, {
+        (Let, "Type*", "type"),
+        (Bundle_Create, type, bundleName, ~f fields),
+        (Transfer, out, <*type>.name)
+    });
+});
+
+(DBundle_Create, "Vec2", ~s [
+    ["u32", "x"],
+    ["u32", "y"],
+]);
+
+(DBundle_Create, "Vec3", ~s [
+    ["u32", "x"],
+    ["u32", "y"],
+    ["u32", "z"],
+]);
+
+//(Let, (Vec2), "p2");
+//(Let, (Vec3), "p3");
+
+/*
+(View, "ptr", ~f <-<-field.name>.data>.data);
+
+(Output, ptr, "\n");
+(Output, +ptr:, "\n");
+
+(View, "ptr2", ~f &&field.name);
+
+(Output, ptr2, "\n");
+(Output, *ptr2, "\n");
+*/
+
+/*
+(View, "data", ~f <-field>.data);
+
+(Transfer, data, 0);
+
+(Output, <-field>.data, "\n");
+
+u8 data = (-field).data;
+
+//(Output ~f myVariable);
+*/
+
+/*
+(Import "import_test.lisp.wea" "Test" false);
+
+(Core.Bundle_Create _ "My_Bundle" [
+    ["d69" "hola_hijos_de_perra"]
+    ["u32" "xd"]
+]);
+
+(Let "My_Bundle" "bundleVariable");
+(Using "bundleVariable");
+
+(Transfer xd 69);
+(Output xd "\n");
+
+(Output Test.var.c "\n");
+(Output "\n");
+
+(Let "u32" "res");
+(Test.Factorial res 5);
+(Output "\nres: " res);
+
+(Output "\n");
+
+(Fn_Create "Type_Name_To_WArray" ["String" "out"] [ ["String" "typeName"] ] {
+    (WStr_From_Fmt out "WArray_%" typeName);
+});
+
+(Output (Type_Name_To_WArray "Field") "\n");
+
+(Let "Fn_Call*" "fnCall" '(Output 69));
+
+(Fn_Create "Exec" NULL NULL {
+    (Output "__BEGIN__");
+    (Bundle_Create "Vec" ~f fnCall);
+    fnCall
+    (Output "__END__");
+});
+
+(Exec);
+*/
+
+/*
+// Code as data test.
+(Let "Fn_Call*" "fnCall" '(Output "Hello, World.\n"));
+
+(Interpret_Fn_Call _ fnCall);
+
+(Let "u32" "counter" 0);
+(Let "Array_Fn_Call_P" "gCode" { (Output "Hello, World.\n"); (Add counter counter 1); });
+
+(Interpret_Code _ gCode);
+(Output counter);
+
+(Core.Fn_Create "Macro" NULL [ ["Array_Fn_Call_P" "code"] ] {
+    (Output "\n__Code Begin__\n");
+    (Interpret_Code _ code);
+    (Output "\n__Code End__\n");
+});
+
+(Macro { (Output "3"); (Output "2"); (Output "1"); });
+(Macro { (Output "1"); (Output "2"); (Output "3"); });
+*/
+
+/*
+(GBundle_Create ["T"] "Vec" '[
+    ["u32" "capacity"]
+    ["u32" "count"]
+    [(Type_Name_To_WArray T) "E"]
+]);
+
+(Let (Vec "Field") "fields");
+*/
+
+/*
+              .
+      .             "c"
+Test     "var"
+*/
+
+/*
+(Fn_Create "Vec" ["Type*" "out"] [ ["Type*" "T"] ] {
+    (Core.Bundle_Create out "Vec_" [
+        ["u32" "capacity"]
+        ["u32" "count"]
+        [(Type_Name_To_WArray T) "E"]
+    ]);
+});
+*/
+
+/*
+(Let Type* "type")
+(If true {
+    (Transfer type u32);
+} {
+    (Transfer type u64);
+})
+
+(Fn_Create "Push" NULL '[ ["Any_Type" "wArray"] [wArray.varWArray.type "elem"] ] {
+})
+*/
+
+/*
+(Core.Bundle_Create _ "Node" [
+    ["u32"  "data"]
+    ["Node*" "next"]
+]);
+
+(Let "Node" "node1" [ 69  NULL ]);
+(Let "Node" "node2" [ 420 NULL ]);
+
+(Transfer node1.next &node2);
+(Transfer node2.next &node1);
+
+(Output
+    node1.data "\n"
+    node1.next.data "\n"
+    node1.next.next.data "\n"
+    node1.next.next.next.data
+);
+*/
+
+//(Transfer fields.count->symbol someNumber->symbol)
+
+/*
+(Let &WArray_Field "fields");
+
+(WArray_Push fields [&u32 "capacity"]);
+(WArray_Push fields [&u32 "count"]);
+
+(Let &u32 "someNumber" 25);
+
+(WArray_Push fields [&WArray_Field "E"]);
+
+(Foreach "iter" fields {
+    (Output iter.type " " iter.name "\n");
+});
+
+(Let &Field "elem");
+(Transfer elem (WArray_Index fields 1));
+(Output elem.name);
+*/
+
+/*
+(Core.Fn_Create "Test_Return" NULL NULL {
+    (Output "hola 1.\n");
+    (Output "hola 2.\n");
+    (Output "hola 3.\n");
+
+    (Return);
+
+    (Output "hola 4.\n");
+    (Output "hola 5.\n");
+});
+
+(Test_Return);
+*/
+
+/*
+(Fn_Create "My_Add" ["u32" "out"] [ ["u32" "a"] ["u32" "b"] ] {
+});
+
+(Fn_Create "Root" {
+    (Fn_Create "Main" {
+        (Import "P:\\src\\import_test.lisp.wea" [ args ]);
+
+        (Fn_Create "Test" NULL [ args ] {
+            (Bundle_Create "Other_Bundle" [
+                ["u32" "a"]
+                ["u32" "b"]
+                ["u32" "c"]
+            ]);
+
+            (Let "Other_Bundle" "var" [ 1 2 3 ]);
+        });
+    });
+});
+*/
+
+/*
+(Fn_Create "main" ["u32" "out"] [ ["Array_String" "args"] ] {
+});
+*/
+
+/*
+(Fn_Create "Main" NULL NULL {
+    (Let "u32" "failedCount" 0)
+    (Let "b8"  "isRunning"   true)
+
+    (Let "String" "input")
+    (While '(Transfer isRunning) {
+        (Input input)
+
+        (If (Type_Name_Is_Integer input) {
+            (Transfer isRunning false)
+        } {
+            (Output "The type \"" input "\" is not an array.\n")
+            (Add failedCount failedCount 1)
+        })
+    })
+
+    (Output "The type \"" input "\" IS an array.\nNumber of attempts: " failedCount "\n\n")
+});
+
+(Main)
+*/
+
+/*
+(Let "Array_String" "strs" [ "Pene" "Caca" "Poto" ])
+
+(Foreach "iter" strs {
+    (Output *iter "\n")
+});
+
+(Let "Array_u32" "numbers" [ 69 420 727 ])
+
+(Foreach "iterNum" numbers {
+    (Output *iterNum "\n")
+});
+*/
+
+/*
+// Test type cheking in the wea side.
+(Let "Array_u32" "var" [ 5 2 ]);
+
+(Fn_Create "Print_Something" NULL [ ["Array_u32" "something"] ] {
+    (Output something.capacity);
+});
+
+(Print_Something var);
+*/
+
+/*
+// Enums
+(Enum_Create "My_Enum" [
+    "Hello"
+    "Bye"
+]);
+
+(Let "My_Enum" "enumVar")
+(Transfer enumVar Bye)
+
+// Unions
+(Union_Create "My_Union" [
+    ["String" "name"]
+    ["u32" "number"]
+]);
+
+(Let "My_Union" "unionVar")
+*/
+
+//(Main);
+
+/*
+(Fn_Create "My_Add" ["u32" "out"] [ ["u32" "a"] ["u32" "b"] ] {
+    (Add out a b)
+});
+
+(Let "u32" "num1" 60)
+(Let "u32" "num2" 9)
+(Let "u32" "res")
+
+(My_Add res num1 num2)
+
+(Fn_Create "Arena_Alloc_Type" (Lit "Param" "Any_Type" "out") (Lit "Array_Param"
+	(Lit "Param" "Memory_Arena*" "arena")
+	(Lit "Param" "Memory_Arena*" "arena")
+) {
+});
+
+(Let "u32" "number");
+(Add number r3 r4);
+
+(Symbol_Root_Get r1 (Str_Begin "r2 penes en mi boca" 2));
+(Type_Name_Is_Integer r2 "u32");
+
+// Create a variable "field" and store data with the "lit" function.
+(Let "Field" "field");
+(Lit field "Field" (Type_Get "String") "name");
+
+(Let "Field" "field2");
+
+(Transfer field2 (Lit "Field" (Type_Get "Type*") "type"));
+
+(Type_Bundle_Create r3 "My_Type" (Lit "Array_Field"
+    (Lit "Field" (Type_Get "String") "name")
+    (Lit "Field" (Type_Get "Type*") "type")
+))
+
+(Let "u32" "num1" 9);
+(Let "u32" "num2" 60);
+(Let "u32" "res");
+
+(Let "Array_String" "inputs")
+
+(Transfer *(Dot &inputs "capacity") 1024)
+(Transfer *(Dot &inputs "count") 0)
+(Transfer *(Dot &inputs "E") (Arena_Alloc gPermArena (Mul *(Dot &inputs "capacity") (Type_Size (Type_Get "String")))))
+*/
+
+/*
+(If (Type_Name_Is_Integer "String") {
+    (Output "This is the THEN block\n")
+    (Output "Hello, World\n")
+} {
+    (Output "This is the ELSE block\n")
+    (Output "Hello, World\n")
+})
+
+(Let "u32" "counter" 0)
+(While '(Less_Than counter 10) {
+    (Output "Hello, World\n")
+    (Add counter counter 1)
+})
+
+fn hola(String fmt, u32 g#[0..inf]..., u64 count, (f32, u8)...) {
+}
+
+hola(fmt=fmt, count=count, a, b, c, d, f1, u1, f2, u2, f3, u3);
+*/

@@ -1,0 +1,17 @@
+(Core.Bundle_Create _ "Other_Bundle" [
+    ["u32" "a"]
+    ["u32" "b"]
+    ["u32" "c"]
+]);
+
+(Let "Other_Bundle" "var" [ 1 2 3 ]);
+
+(Fn_Create "Factorial" ["u32" "out"] [ ["u32" "number"] ] {
+    (Transfer out 1);
+
+    (While ~s (Not (Eq number 0)) {
+        (Mul out out number);
+	    (Output number " ");
+        (Sub number number 1);
+    });
+});

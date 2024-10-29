@@ -1,0 +1,18 @@
+Microsoft.Build.Exceptions.InvalidProjectFileException: No se pudo cargar el archivo del proyecto. Los datos del nivel de raíz no son válidos. línea 1, posición 1.  P:\bin\lang.exe ---> System.Xml.XmlException: Los datos del nivel de raíz no son válidos. línea 1, posición 1.
+   en System.Xml.XmlTextReaderImpl.Throw(Exception e)
+   en System.Xml.XmlTextReaderImpl.ParseRootLevelWhitespace()
+   en System.Xml.XmlTextReaderImpl.ParseDocumentContent()
+   en Microsoft.Build.Internal.XmlReaderExtension.GetXmlReader(String file, StreamReader input, Boolean loadAsReadOnly, Encoding& encoding)
+   en Microsoft.Build.Internal.XmlReaderExtension..ctor(String file, Boolean loadAsReadOnly)
+   en Microsoft.Build.Construction.ProjectRootElement.LoadDocument(String fullPath, Boolean preserveFormatting, Boolean loadAsReadOnly)
+   --- Fin del seguimiento de la pila de la excepción interna ---
+   en Microsoft.Build.Shared.ProjectFileErrorUtilities.VerifyThrowInvalidProjectFile(Boolean condition, String errorSubCategoryResourceName, BuildEventFileInfo projectFile, Exception innerException, String resourceName, Object[] args)
+   en Microsoft.Build.Shared.ProjectFileErrorUtilities.ThrowInvalidProjectFile(BuildEventFileInfo projectFile, Exception innerException, String resourceName, Object[] args)
+   en Microsoft.Build.Construction.ProjectRootElement.LoadDocument(String fullPath, Boolean preserveFormatting, Boolean loadAsReadOnly)
+   en Microsoft.Build.Construction.ProjectRootElement..ctor(String path, ProjectRootElementCacheBase projectRootElementCache, Boolean preserveFormatting)
+   en Microsoft.Build.Construction.ProjectRootElement.CreateProjectFromPath(String projectFile, ProjectRootElementCacheBase projectRootElementCache, Boolean preserveFormatting)
+   en Microsoft.Build.Evaluation.ProjectRootElementCache.Get(String projectFile, OpenProjectRootElement loadProjectRootElement, Boolean isExplicitlyLoaded, Nullable`1 preserveFormatting)
+   en Microsoft.Build.Construction.ProjectRootElement.OpenProjectOrSolution(String fullPath, IDictionary`2 globalProperties, String toolsVersion, ProjectRootElementCacheBase projectRootElementCache, Boolean isExplicitlyLoaded)
+   en Microsoft.Build.Execution.ProjectInstance..ctor(String projectFile, IDictionary`2 globalProperties, String toolsVersion, String subToolsetVersion, ProjectCollection projectCollection, Nullable`1 projectLoadSettings, EvaluationContext evaluationContext)
+   en Microsoft.SdvMenuCommand.DriverVerificationLicense..ctor()
+   en Microsoft.SdvMenuCommand.SdvMenuCommandPackage.StaticToolsLogoMenuItemCallback(Object sender, EventArgs e)
